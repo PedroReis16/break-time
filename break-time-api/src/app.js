@@ -1,5 +1,7 @@
 require("dotenv").config();
 
+const healthCheckRoutes = require("./routes/healthCheckRoutes");
+
 const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
@@ -14,8 +16,10 @@ app.use(express.json());
 app.use(morgan("tiny"));
 
 // Routes
-const healthCheckRoutes = require("./routes/healthCheckRoutes");
-
 app.use("/health-check", healthCheckRoutes);
+
+// Middle to static files
+const path = require("path");
+app.use("/assets", express.static(path.join(__dirname, "assets")));
 
 module.exports = app;
