@@ -1,6 +1,6 @@
-const User = require("../models/user");
+const User = require("../models/student");
 
-class UserDao {
+class StudentDao {
   async createUserAsync(data) {
     return await User.create(data);
   }
@@ -30,4 +30,4 @@ class UserDao {
   }
 }
 
-module.exports = new UserDao();
+module.exports = new StudentDao();
