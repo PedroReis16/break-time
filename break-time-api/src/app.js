@@ -2,6 +2,8 @@ require("dotenv").config();
 
 const healthCheckRoutes = require("./routes/healthCheckRoutes");
 const studentRoutes = require("./routes/studentRoutes");
+const plateRoutes = require("./routes/plateRoutes");
+
 
 const express = require("express");
 const cors = require("cors");
@@ -23,6 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 // Routes
 app.use("/health-check", healthCheckRoutes);
 app.use("/alunos", studentRoutes);
+app.use("/pratos", plateRoutes);
 
 // Middle to static files
 app.use("/assets", express.static(path.join(__dirname, "assets")));

@@ -1,5 +1,4 @@
 const Student = require("../models/student");
-const path = require("path");
 
 module.exports = {
   async create(req, res) {
