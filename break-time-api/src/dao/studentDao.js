@@ -1,17 +1,17 @@
-const User = require("../models/student");
+const Student = require("../models/student");
 
 class StudentDao {
   async createUserAsync(data) {
-    return await User.create(data);
+    return await Student.create(data);
   }
   async findAllAsync() {
-    return await User.findAll();
+    return await Student.findAll();
   }
   async findByIdAsync(id) {
-    return await User.findByPk(id);
+    return await Student.findByPk(id);
   }
   async findByRegisterAsync(register) {
-    return await User.findOne({ where: { register } });
+    return await Student.findOne({ where: { register } });
   }
   async updateAsync(userId, data) {
     const user = await this.findById(userId);
