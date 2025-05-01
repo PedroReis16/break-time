@@ -1,32 +1,58 @@
 const Student = require("../models/student");
+const { Op } = require("sequelize");
 
 class StudentDao {
-  async createStudentAsync(data){
-    
+  async createStudentAsync(data) {
+    const trackedStudent = await Student.findOne({ where: { register: data.register } });
 
+    if (trackedStudent) {
+      throw new Error("Student already exists");
+    }
 
+    if (!data.register) {
+      throw new Error("Student register is required");
+    }
+    if (!data.name) {
+      throw new Error("Student name is required");
+    }
+    if (!data.photo) {
+      throw new Error("Student photo is required");
+    }
+
+    return await Student.create(data);
   }
+  async findAllStudentsAsync(filter) {
+    const { name, register } = filter;
+    const where = {};
 
+    if (name) {
+      where.name = { [Op.like]: `%${name}%` };
+    }
+    if (register) {
+      where.register = { [Op.like]: `%${register}%` };
+    }
 
-
-  // async createStudentAsync(data) {
-  //   return await Student.create(data);
-  // }
-  async findAllAsync() {
-    return await Student.findAll();
+    return await Student.findAll({ where });
   }
-  async findByIdAsync(id) {
-    return await Student.findByPk(id);
-  }
-  async findByRegisterAsync(register) {
-    return await Student.findOne({ where: { register } });
+  async findStudentAsync(id) {
+    return await Student.findById(id);
   }
   async updateAsync(userId, data) {
-    const user = await this.findById(userId);
-    if (!user) {
-      throw new Error("User not found");
+    const trackedStudent = await Student.findById(userId);
+
+    if (!trackedStudent) {
+      throw new Error("Student not found");
     }
-    return await user.update(data);
+
+    if (data.name) {
+      trackedStudent.name = data.name;
+    }
+    if (data.photo) {
+      trackedStudent.photo = data.photo;
+    }
+
+    trackedStudent.save();
+    return trackedStudent;
   }
   async deleteAsync(userId) {
     const user = await this.findById(userId);

@@ -9,9 +9,9 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
 router.post("/", upload.single("photo"), studentController.create);
-router.get("/", studentController.index);
-router.get("/:id", studentController.show);
-router.put("/:id", upload.single("photo"), studentController.update);
+router.get("/", studentController.getStudents);
+router.get("/:id", studentController.getStudent);
+router.put("/:id", upload.single("photo"), studentController.updateStudent);
 router.delete("/:id", studentController.delete);
 
 module.exports = router;
