@@ -3,6 +3,12 @@ const { Op } = require("sequelize");
 
 class PlateDao {
     async createPlateAsync(data) {
+        var trackedPlate = await Plate.findOne({ where: { name: data.name } });
+
+        if (trackedPlate) {
+            throw Error(`O prato ${data.name} já existe`);
+        }
+
         if (!data.name) {
             return res.status(400).json({ message: 'Nome do prato é obrigatório.' });
         }

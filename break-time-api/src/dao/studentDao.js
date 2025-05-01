@@ -1,9 +1,17 @@
 const Student = require("../models/student");
 
 class StudentDao {
-  async createStudentAsync(data) {
-    return await Student.create(data);
+  async createStudentAsync(data){
+    
+
+
   }
+
+
+
+  // async createStudentAsync(data) {
+  //   return await Student.create(data);
+  // }
   async findAllAsync() {
     return await Student.findAll();
   }
