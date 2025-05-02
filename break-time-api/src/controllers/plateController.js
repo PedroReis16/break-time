@@ -1,4 +1,4 @@
-const { dao } = require('../dao/plateDao');
+const dao = require('../dao/plateDao');
 
 
 module.exports = {
@@ -13,7 +13,14 @@ module.exports = {
                 return res.status(204).json([]);
             }
 
-            res.json(plates);
+            const responsePlates = plates.map((plate) => ({
+                id: plate.id,
+                name: plate.name,
+                category: plate.category,
+                active: plate.active
+            }));
+
+            res.json(responsePlates);
 
         }
         catch (error) {
@@ -26,7 +33,7 @@ module.exports = {
             const { id } = req.params;
             const plate = await dao.findPlateAsync(id);
 
-            if (!plate) return res.status(404).json({ message: 'Prato não encontrado.' });
+            if (!plate) return res.status(404).send();
 
             const responsePlate = {
                 id: plate.id,
@@ -45,16 +52,17 @@ module.exports = {
         try {
             const { name, category } = req.body;
 
-            const result = await dao.createPlateAsync({
+
+            await dao.createPlateAsync({
                 name: name,
                 category: category
             });
 
-            return res.status(201).json(result);
+            return res.status(201).json({ message: 'Prato criado com sucesso' });
         }
         catch (error) {
             console.error(error);
-            res.status(500).json({ message: `Erro ao criar o prato.Erro: ${error}` });
+            res.status(500).json({ message: `Erro ao criar o prato. ${error}` });
         }
     },
     async update(req, res) {
@@ -62,7 +70,7 @@ module.exports = {
             const { id } = req.params;
             const { name, category } = req.body;
 
-            const plate = await dao.updatePlateAsync(
+            await dao.updatePlateAsync(
                 id,
                 {
                     name: name,
@@ -81,11 +89,7 @@ module.exports = {
             const { id } = req.params;
             const { active } = req.body;
 
-            const plate = await dao.updatePlateAsync(
-                id,
-                {
-                    active: active
-                });
+            const plate = await dao.updatePlateActiveAsync(id, active);
 
             return res.status(200).json({ message: 'Prato atualizado com sucesso' });
         }

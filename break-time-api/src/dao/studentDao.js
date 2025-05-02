@@ -1,4 +1,4 @@
-const Student = require("../models/student");
+const Student = require("../models/entities/student");
 const { Op } = require("sequelize");
 
 class StudentDao {

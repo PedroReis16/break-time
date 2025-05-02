@@ -1,4 +1,4 @@
-const Plate = require("../models/plate");
+const Plate = require("../models/entities/plate");
 const { Op } = require("sequelize");
 
 class PlateDao {
@@ -10,10 +10,10 @@ class PlateDao {
         }
 
         if (!data.name) {
-            return res.status(400).json({ message: 'Nome do prato é obrigatório.' });
+            throw new Error("Nome do prato é obrigatório.");
         }
         if (!data.category) {
-            return res.status(400).json({ message: 'Categoria do prato é obrigatória.' });
+            throw new Error("Categoria do prato é obrigatória.");
         }
 
         return await Plate.create(data);
@@ -40,7 +40,7 @@ class PlateDao {
     }
 
     async updatePlateAsync(id, data) {
-        const plate = await this.findPlateAsync(id);
+        const plate = await Plate.findPlateAsync(id);
 
         if (!plate) {
             throw new Error("Plate not found");
@@ -68,8 +68,8 @@ class PlateDao {
         return plate;
     }
 
-    async deleteAsync(userId) {
-        const plate = await this.findPlateAsync(userId);
+    async deletePlateAsync(userId) {
+        const plate = await Plate.findByPk(userId);
         if (!plate) {
             throw new Error("Plate not found");
         }
