@@ -1,8 +1,8 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../../config/database");
-const plateCategories = require("../enums/plateCategories");
+const plateCategories = require("../enums/dishCategories");
 
-const Dish = sequelize.define("plate", {
+const Dish = sequelize.define("dish", {
     name: {
         type: DataTypes.STRING,
         allowNull: false,

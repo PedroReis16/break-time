@@ -1,12 +1,12 @@
 const express = require('express');
-const plateController = require('../controllers/plateController');
+const dishController = require('../controllers/dishController');
 const router = express.Router();
 
-router.get('/', plateController.getAllPlate);
-router.get('/:id', plateController.getPlate);
-router.post('/', plateController.create);
-router.put('/:id', plateController.update);
-router.patch('/:id', plateController.updatePlateStatus);
-router.delete('/:id', plateController.deletePlate);
+router.get('/', dishController.getAllDishes);
+router.get('/:id', dishController.getDish);
+router.post('/', dishController.create);
+router.put('/:id', dishController.update);
+router.patch('/:id', dishController.updateDishStatus);
+router.delete('/:id', dishController.deleteDish);
 
 module.exports = router;

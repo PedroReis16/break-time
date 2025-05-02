@@ -1,4 +1,4 @@
-const Dish = require("../models/entities/plate");
+const Dish = require("../models/entities/dish");
 const { Op } = require("sequelize");
 
 class DishDao {
