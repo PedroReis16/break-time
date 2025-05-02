@@ -2,7 +2,7 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../../config/database");
 const plateCategories = require("../enums/plateCategories");
 
-const Plate = sequelize.define("plate", {
+const Dish = sequelize.define("plate", {
     name: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -28,4 +28,4 @@ const Plate = sequelize.define("plate", {
     timestamps: true
 });
 
-module.exports = Plate;
+module.exports = Dish;

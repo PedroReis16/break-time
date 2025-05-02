@@ -1,26 +1,26 @@
-const dao = require('../dao/plateDao');
+const dao = require('../dao/dishDao');
 
 
 module.exports = {
 
-    async getAllPlate(req, res) {
+    async getAllDishes(req, res) {
         try {
             const { name, category } = req.query;
 
-            const plates = await dao.findPlatesAsync({ name: name, category: category })
+            const dishes = await dao.findDishesAsync({ name: name, category: category })
 
-            if (!plates || plates.length === 0) {
+            if (!dishes || dishes.length === 0) {
                 return res.status(204).json([]);
             }
 
-            const responsePlates = plates.map((plate) => ({
+            const responseDishes = dishes.map((plate) => ({
                 id: plate.id,
                 name: plate.name,
                 category: plate.category,
                 active: plate.active
             }));
 
-            res.json(responsePlates);
+            res.json(responseDishes);
 
         }
         catch (error) {
@@ -28,18 +28,18 @@ module.exports = {
             res.status(500).json({ message: `Erro ao listar os pratos. Erro: ${error}` });
         }
     },
-    async getPlate(req, res) {
+    async getDish(req, res) {
         try {
             const { id } = req.params;
-            const plate = await dao.findPlateAsync(id);
+            const dish = await dao.findDishAsync(id);
 
-            if (!plate) return res.status(404).send();
+            if (!dish) return res.status(404).send();
 
             const responsePlate = {
-                id: plate.id,
-                name: plate.name,
-                category: plate.category,
-                active: plate.active
+                id: dish.id,
+                name: dish.name,
+                category: dish.category,
+                active: dish.active
             };
 
             res.json(responsePlate);
@@ -53,7 +53,7 @@ module.exports = {
             const { name, category } = req.body;
 
 
-            await dao.createPlateAsync({
+            await dao.createDishAsync({
                 name: name,
                 category: category
             });
@@ -70,7 +70,7 @@ module.exports = {
             const { id } = req.params;
             const { name, category } = req.body;
 
-            await dao.updatePlateAsync(
+            await dao.updateDishAsync(
                 id,
                 {
                     name: name,
@@ -84,12 +84,12 @@ module.exports = {
             res.status(500).json({ message: `Erro ao atualizar o prato. Erro: ${error}` });
         }
     },
-    async updatePlateStatus(req, res) {
+    async updateDishStatus(req, res) {
         try {
             const { id } = req.params;
             const { active } = req.body;
 
-            const plate = await dao.updatePlateActiveAsync(id, active);
+            const plate = await dao.updateDishStatusAsync(id, active);
 
             return res.status(200).json({ message: 'Prato atualizado com sucesso' });
         }
@@ -98,10 +98,10 @@ module.exports = {
             res.status(500).json({ message: `Erro ao atualizar o prato. Erro: ${error}` });
         }
     },
-    async deletePlate(req, res) {
+    async deleteDish(req, res) {
         try {
             const { id } = req.params;
-            await dao.deletePlateAsync(id);
+            await dao.deleteDishAsync(id);
 
             return res.status(204).send();
         }

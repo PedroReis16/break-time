@@ -1,9 +1,9 @@
-const Plate = require("../models/entities/plate");
+const Dish = require("../models/entities/plate");
 const { Op } = require("sequelize");
 
-class PlateDao {
-    async createPlateAsync(data) {
-        var trackedPlate = await Plate.findOne({ where: { name: data.name } });
+class DishDao {
+    async createDishAsync(data) {
+        var trackedPlate = await Dish.findOne({ where: { name: data.name } });
 
         if (trackedPlate) {
             throw Error(`O prato ${data.name} já existe`);
@@ -16,9 +16,9 @@ class PlateDao {
             throw new Error("Categoria do prato é obrigatória.");
         }
 
-        return await Plate.create(data);
+        return await Dish.create(data);
     }
-    async findPlatesAsync(filter) {
+    async findDishesAsync(filter) {
         const whereConditions = {};
 
         if (filter) {
@@ -29,18 +29,18 @@ class PlateDao {
             });
         }
 
-        return await Plate.findAll({ where: whereConditions });
+        return await Dish.findAll({ where: whereConditions });
     }
-    async findPlateAsync(id) {
-        const plate = await Plate.findByPk(id);
+    async findDishAsync(id) {
+        const plate = await Dish.findByPk(id);
         if (!plate) {
             throw new Error("Plate not found");
         }
         return plate;
     }
 
-    async updatePlateAsync(id, data) {
-        const plate = await Plate.findPlateAsync(id);
+    async updateDishAsync(id, data) {
+        const plate = await Dish.findPlateAsync(id);
 
         if (!plate) {
             throw new Error("Plate not found");
@@ -56,8 +56,8 @@ class PlateDao {
         await plate.save();
         return plate;
     }
-    async updatePlateActiveAsync(id, active) {
-        const plate = await this.findPlateAsync(id);
+    async updateDishStatusAsync(id, active) {
+        const plate = await this.findDishAsync(id);
 
         if (!plate) {
             throw new Error("Plate not found");
@@ -68,8 +68,8 @@ class PlateDao {
         return plate;
     }
 
-    async deletePlateAsync(userId) {
-        const plate = await Plate.findByPk(userId);
+    async deleteDishAsync(userId) {
+        const plate = await Dish.findByPk(userId);
         if (!plate) {
             throw new Error("Plate not found");
         }
@@ -78,4 +78,4 @@ class PlateDao {
     }
 }
 
-module.exports = new PlateDao();
+module.exports = new DishDao();
