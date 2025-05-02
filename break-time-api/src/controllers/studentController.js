@@ -1,4 +1,3 @@
-
 const dao = require("../dao/studentDao");
 
 module.exports = {
@@ -7,18 +6,17 @@ module.exports = {
       const { register, name } = req.body;
       const photo = req.file?.buffer;
 
-      const student = await dao.createStudentAsync({
+      await dao.createStudentAsync({
         register: register,
         name: name,
         photo: photo
       });
 
-      await dao.createStudentAsync(student);
       return res.status(201).json({ message: "Aluno criado com sucesso." });
 
     } catch (error) {
       console.log(error);
-      return res.status(500).json({ error: `Erro ao criar aluno. Erro: ${error}` });
+      return res.status(500).json({ error: `Erro ao criar aluno. ${error}` });
     }
   },
   async getStudents(req, res) {
@@ -42,7 +40,7 @@ module.exports = {
     }
     catch (error) {
       console.log(error);
-      return res.status(500).json({ error: `Erro ao buscar alunos. Erro: ${error}` });
+      return res.status(500).json({ error: `Erro ao buscar alunos.  ${error}` });
 
     }
   },
@@ -66,13 +64,13 @@ module.exports = {
     }
     catch (error) {
       console.log(error);
-      return res.status(500).json({ error: `Erro ao buscar aluno. Erro: ${error}` });
+      return res.status(500).json({ error: `Erro ao buscar aluno.  ${error}` });
     }
   },
   async updateStudent(req, res) {
     try {
       const { id } = req.params;
-      const { register, name } = req.body;
+      const { name } = req.body;
       const photo = req.file?.buffer;
 
       await dao.updateAsync(id, {
@@ -84,7 +82,7 @@ module.exports = {
     }
     catch (error) {
       console.log(error);
-      return res.status(500).json({ error: `Erro ao atualizar aluno. Erro: ${error}` });
+      return res.status(500).json({ error: `Erro ao atualizar aluno.  ${error}` });
     }
   },
   async delete(req, res) {
@@ -97,21 +95,7 @@ module.exports = {
     }
     catch (error) {
       console.log(error);
-      return res.status(500).json({ error: `Erro ao deletar aluno. Erro: ${error}` });
+      return res.status(500).json({ error: `Erro ao deletar aluno.  ${error}` });
     }
   }
-
-  // async delete(req, res) {
-  //   try {
-  //     const { id } = req.params;
-  //     const student = await Student.findByPk(id);
-  //     if (!student)
-  //       return res.status(404).json({ message: "Aluno não encontrado." });
-
-  //     await student.destroy();
-  //     return res.status(204).send();
-  //   } catch (err) {
-  //     return res.status(500).json({ error: err.message });
-  //   }
-  // },
 };

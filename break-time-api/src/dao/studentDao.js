@@ -3,12 +3,6 @@ const { Op } = require("sequelize");
 
 class StudentDao {
   async createStudentAsync(data) {
-    const trackedStudent = await Student.findOne({ where: { register: data.register } });
-
-    if (trackedStudent) {
-      throw new Error("Student already exists");
-    }
-
     if (!data.register) {
       throw new Error("Student register is required");
     }
@@ -17,6 +11,12 @@ class StudentDao {
     }
     if (!data.photo) {
       throw new Error("Student photo is required");
+    }
+
+    const trackedStudent = await Student.findOne({ where: { register: data.register } });
+
+    if (trackedStudent !== null) {
+      throw new Error("Student already exists");
     }
 
     return await Student.create(data);
@@ -35,10 +35,10 @@ class StudentDao {
     return await Student.findAll({ where });
   }
   async findStudentAsync(id) {
-    return await Student.findById(id);
+    return await Student.findByPk(id);
   }
   async updateAsync(userId, data) {
-    const trackedStudent = await Student.findById(userId);
+    const trackedStudent = await Student.findByPk(userId);
 
     if (!trackedStudent) {
       throw new Error("Student not found");
@@ -55,7 +55,7 @@ class StudentDao {
     return trackedStudent;
   }
   async deleteAsync(userId) {
-    const user = await this.findById(userId);
+    const user = await Student.findByPk(userId);
     if (!user) {
       throw new Error("User not found");
     }

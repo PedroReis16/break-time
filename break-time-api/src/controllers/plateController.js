@@ -1,4 +1,3 @@
-const { Plate } = require('../models');
 const { dao } = require('../dao/plateDao');
 
 
